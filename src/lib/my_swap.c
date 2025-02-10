@@ -11,4 +11,5 @@ void my_swap(int *a, int *b)
 
     *a = *b;
     *b = i;
+    my_printf("a: %d, b: %d\n", *a, *b);
 }

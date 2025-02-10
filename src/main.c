@@ -8,6 +8,10 @@
 
 int main(int argc, char **argv, char **env)
 {
-    printf("hello world\n");
+    if (argc < 1)
+        return 84;
+    for (int i = 0; env[i] != NULL; i++) {
+     my_printf("%s\n", env[i]);
+    }
     return 0;
 }

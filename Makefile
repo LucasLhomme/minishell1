@@ -5,23 +5,25 @@
 ## MakeFile dans le fichier root
 ##
 
-NAME = my_sh
+NAME = mysh
 DEBUG = -g
-CFLAGS += -g -Wall -Wextra -W -Iinclude -Ilib/include
+CFLAGS += -Wall -Wextra -W -Iinclude -Isrc/lib/include
 
-SRC =	src/main.c\
+SRC =	./src/main.c\
 
 OBJ  	=	 $(SRC:.c=.o)
 
 
 all: 	$(NAME)
+		$(MAKE) clean
 
 $(NAME):	$(OBJ)
-		make -C ./lib
-		gcc -o $(NAME) $(OBJ) -L./lib -lm
+		$(MAKE) -C src/lib all
+		gcc $(CFLAGS) -o $(NAME) $(OBJ) libmy.a -lcrypt
+		rm libmy.a
 
 clean || clear:
-		$(MAKE) -C lib clean
+		$(MAKE) -C src/lib clean
 		rm -f $(OBJ)
 
 fclean:
@@ -30,12 +32,13 @@ fclean:
 re:
 		$(MAKE) fclean
 		$(MAKE) all
+		$(MAKE) clean
 
 debug: 	$(DEBUG)
 
 $(DEBUG):	$(OBJ)
-		make -C ./lib
-		gcc -g $(CFLAGS) main.c -o debug $(OBJ) libmy.a
+		$(MAKE) -C src/lib all
+		gcc -g $(CFLAGS) -o debug $(OBJ) libmy.a
 
 redebug:
 		$(MAKE) fclean
