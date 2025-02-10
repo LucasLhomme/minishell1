@@ -33,6 +33,7 @@ LIB =	./check_strisnum.c\
 	./my_revstr.c\
 	./my_str_str.c\
 	./my_str_to_word_array.c\
+	./isalphanum.c\
 	./blanck.c\
 	./flag_c.c\
 	./flag_d.c\
@@ -42,7 +43,7 @@ LIB =	./check_strisnum.c\
 	./flag_s.c\
 	./flag_x.c\
 	./flag_x2.c\
-	./my_printf.c
+	./my_printf.c\
 
 
 OBJ_LIB  	=	 $(LIB:.c=.o)
