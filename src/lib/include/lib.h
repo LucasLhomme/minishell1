@@ -6,14 +6,12 @@
 */
 
 #include <stdio.h>
-#include <stdarg.h>
-#include <stdlib.h>
 #include <string.h>
-#include <dirent.h>
-#include <time.h>
+#include <stdlib.h>
 
-#ifndef MY_H
-    #define MY_H
+
+#ifndef LIB_H
+    #define LIB_H
 int my_isneg(int nb);
 int my_put_nbr(int nb);
 void my_swap(int *a, int *b);
@@ -53,4 +51,6 @@ void flag_x(va_list list);
 void blank(va_list list);
 int flag_detector(const char *format, int i, va_list list);
 int isalphanum(char c);
+char *my_strcat(char *str, const char *new_str);
+
 #endif /*lib.h*/

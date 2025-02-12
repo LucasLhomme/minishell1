@@ -7,7 +7,7 @@
 
 NAME = mysh
 DEBUG = -g
-CFLAGS += -Wall -Wextra -W -Iinclude -Isrc/lib/include
+CFLAGS += -g -Wall -Wextra -W -Iinclude -Isrc/lib/include
 
 SRC =	./src/main.c\
 
