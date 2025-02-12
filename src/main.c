@@ -7,29 +7,37 @@
 #include "lib.h"
 #include <unistd.h>
 
-void searching_bin(char *cmd, char **env)
+void searching_bin(char *buffer, char **env)
 {
     char path[256];
-    char *argv[] = {cmd, NULL};
+    char *argv[] = {buffer, NULL};  // Tableau d'arguments correct
 
     my_strcpy(path, "/bin/");
-    my_strcat(path, cmd);
-    my_printf("/bin/%s\n", cmd);
+    my_strcat(path, buffer);
     if (access(path, X_OK) == 0) {
         my_printf("Command found in: %s\n", path);
         execve(path, argv, env);
     } else {
-        my_printf("Command not found: %s\n", cmd);
+        my_printf("Command not found: %s\n", buffer);
     }
 }
 
-int main(int argc, char **argv, char **env)
+void loop_terminal(char **env)
 {
-    char **tab = my_str_to_word_array(argv[1]);
-    if (argc <= 1 || argv[1] == NULL)
-        return 84;
-    if (tab == NULL || tab[0] == NULL)
-        return 84;
-    searching_bin(tab[0], env);
+    size_t len = 0;
+    char *buffer = NULL;
+
+    while (1) {
+        my_printf("$>");
+        if (getline(&buffer, &len, stdin) == -1)
+            break;
+        printf("%s", buffer);
+        searching_bin(buffer, env);
+    }
+}
+
+int main(char **env)
+{
+    loop_terminal(env);
     return 0;
 }
