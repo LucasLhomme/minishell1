@@ -44,6 +44,7 @@ LIB =	./check_strisnum.c\
 	./flag_x.c\
 	./flag_x2.c\
 	./my_printf.c\
+	./my_strcmp.c\
 	./my_strcat.c\
 
 
