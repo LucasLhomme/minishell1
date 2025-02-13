@@ -10,6 +10,8 @@ DEBUG = -g
 CFLAGS += -g -Wall -Wextra -W -Iinclude -Isrc/lib/include
 
 SRC =	./src/main.c\
+./src/execute_command.c\
+./src/shell.c\
 
 OBJ  	=	 $(SRC:.c=.o)
 
