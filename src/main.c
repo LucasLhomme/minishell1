@@ -7,28 +7,26 @@
 #include "lib.h"
 #include <unistd.h>
 
-void cleaning_buffer(char *buffer)
+char *cleaning_buffer(char *buffer)
 {
     for (int i = 0; buffer[i] != '\0'; i++) {
-          if (my_strcmp(buffer[i]) == '\n')
+          if (buffer[i] == '\n')
               buffer[i] = '\0';
         }
+    return buffer;
 }
 
 void searching_bin(char *buffer, char **env)
 {
     char path[256];
-    char *argv[] = {buffer, NULL};
+    char **argv = {NULL};
 
     my_strcpy(path, "/bin/");
     my_strcat(path, buffer);
-    cleaning_buffer(buffer);
-    printf("buffer: %s", buffer);
-    printf("path: %s", path);
-    printf("argv: %s", buffer);
+    cleaning_buffer(path);
     if (access(path, X_OK) == 0) {
-        my_printf("Command found in: %s\n", path);
         execve(path, argv, env);
+        my_printf("Command found in: %s\n", path);
     } else {
         my_printf("Command not found: %s\n", buffer);
     }
@@ -42,13 +40,12 @@ void loop_terminal(char **env)
     while (1) {
         my_printf("$>");
         if (getline(&buffer, &len, stdin) == -1)
-            break;
         my_printf("%s", buffer);
         searching_bin(buffer, env);
     }
 }
 
-int main(char **env)
+int main(int ac, char **argv, char **env)
 {
     loop_terminal(env);
     return 0;
