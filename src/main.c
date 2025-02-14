@@ -5,6 +5,7 @@
 ** main
 */
 #include "lib.h"
+#include "my.h"
 
 int main(int ac, char **argv, char **env)
 {

@@ -8,10 +8,10 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#ifndef MY_H
-    #define MY_H
+#ifndef MY_H_
+    #define MY_H_
 char *cleaning_buffer(char *buffer);
 void searching_bin(char *buffer, char **env);
 void loop_terminal(char **env);
 
-#endif MY_H
+#endif /* MY_H_ */

@@ -9,6 +9,8 @@
 
 char *cleaning_buffer(char *buffer)
 {
+    if (buffer == NULL)
+        exit (84);
     for (int i = 0; buffer[i] != '\0'; i++) {
         if (buffer[i] == '\n')
             buffer[i] = '\0';
@@ -19,15 +21,17 @@ char *cleaning_buffer(char *buffer)
 void searching_bin(char *buffer, char **env)
 {
     char *path = malloc(sizeof(char *) + 1);
-    char **argv = {NULL};
+    char **argv = my_str_to_word_array(buffer);
 
+    if (!argv[0])
+        return;
     my_strcpy(path, "/bin/");
-    my_strcat(path, buffer);
+    my_strcat(path, argv[0]);
     cleaning_buffer(path);
     if (access(path, X_OK) == 0) {
-        execve(path, argv, env);
-        my_printf("Command found in: %s\n", path);
-    } else {
-        my_printf("Command not found: %s\n", buffer);
-    }
+        printf("argv 1: %s", argv[1]);
+            execve(path, argv, env);
+            my_printf("Command found in: %s\n", path);
+    } else
+        my_printf("Command not found: %s\n", path);
 }
