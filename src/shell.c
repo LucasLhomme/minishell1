@@ -18,10 +18,10 @@ void loop_terminal(char **env)
         read = getline(&buffer, &len, stdin);
             if (read == -1) {
                 free(buffer);
-                my_printf("exit");
+                my_printf("\nexit");
                 exit(0);
             }
         if (my_strcmp(buffer, "\n") != 0)
-            searching_bin(buffer, env);
+            hand_command(buffer, env);
     }
 }

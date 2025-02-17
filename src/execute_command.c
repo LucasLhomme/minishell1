@@ -29,9 +29,16 @@ void searching_bin(char *buffer, char **env)
     my_strcat(path, argv[0]);
     cleaning_buffer(path);
     if (access(path, X_OK) == 0) {
-        printf("argv 1: %s", argv[1]);
             execve(path, argv, env);
             my_printf("Command found in: %s\n", path);
     } else
         my_printf("Command not found: %s\n", path);
+}
+
+void hand_command(char *buffer, char **env)
+{
+    if (my_strncmp(buffer, "cd", 2) == 0)
+        my_cd(buffer, env);
+    else
+        searching_bin(buffer, env);
 }

@@ -12,6 +12,7 @@ CFLAGS += -g -Wall -Wextra -W -Iinclude -Isrc/lib/include
 SRC =	./src/main.c\
 ./src/execute_command.c\
 ./src/shell.c\
+./src/command_cd.c\
 
 OBJ  	=	 $(SRC:.c=.o)
 
