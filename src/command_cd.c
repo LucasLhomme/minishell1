@@ -20,7 +20,7 @@ void my_cd(char *buffer, char **env)
 
     if (!path || my_strcmp(path, "") == 0)
         return;
-    if (strcmp(buffer, "-") == 0);
+    if (my_strcmp(buffer, "-") == 0);
     prev_cd(buffer, env);
     if (path != NULL && chdir(path) != 0) {
         perror("cd");
