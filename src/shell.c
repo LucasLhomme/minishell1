@@ -7,7 +7,7 @@
 #include "my.h"
 #include "lib.h"
 
-void loop_terminal(char **env)
+int loop_terminal(char **env)
 {
     size_t len = 0;
     ssize_t read;
@@ -16,12 +16,12 @@ void loop_terminal(char **env)
     while (1) {
         my_printf("$>");
         read = getline(&buffer, &len, stdin);
-            if (read == -1) {
-                free(buffer);
-                my_printf("\nexit");
-                exit(0);
-            }
-        if (my_strcmp(buffer, "\n") != 0)
+        if (read == -1) {
+            free(buffer);
+            my_printf("\nexit\n");
+        }
+        if (my_strcmp(buffer, "\n") != 0) {
             hand_command(buffer, env);
+        }
     }
 }

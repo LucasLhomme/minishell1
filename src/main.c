@@ -12,10 +12,10 @@ int main(int ac, char **argv, char **env)
     pid_t id = fork();
 
     if (argv == NULL || ac < 1)
-        exit(84);
-    if (id > 0)
+        return 84;
+    if (id == 0) {
         loop_terminal(env);
-    else if (id == 0)
+    }
+    else if (id > 0)
         wait(NULL);
-    exit (0);
 }

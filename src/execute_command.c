@@ -10,7 +10,7 @@
 char *cleaning_buffer(char *buffer)
 {
     if (buffer == NULL)
-        exit (84);
+        return cleaning_buffer;
     for (int i = 0; buffer[i] != '\0'; i++) {
         if (buffer[i] == '\n')
             buffer[i] = '\0';
@@ -29,12 +29,14 @@ void searching_bin(char *buffer, char **env)
     my_strcat(path, argv[0]);
     cleaning_buffer(path);
     if (access(path, X_OK) == 0) {
+        if (fork() == 0) {
             execve(path, argv, env);
-            my_printf("Command found in: %s\n", path);
+            perror(execve);
+        }
+        wait(NULL);
     } else
-        my_printf("Command not found: %s\n", path);
+        my_printf("command not found: %s\n", argv[0]);
 }
-
 void hand_command(char *buffer, char **env)
 {
     if (my_strncmp(buffer, "cd", 2) == 0)
