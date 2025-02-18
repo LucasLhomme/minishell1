@@ -10,12 +10,21 @@
 int main(int ac, char **argv, char **env)
 {
     pid_t id = fork();
+    int status = 0;
+    int exit_status = 0;
 
     if (argv == NULL || ac < 1)
         return 84;
-    if (id == 0) {
-        loop_terminal(env);
+    if (id == 0)
+        exit(loop_terminal(env));
+    if (waitpid(id, &status, 0) == -1) {
+        perror("waitpid failed");
+        return EXIT_FAILURE;
     }
-    else if (id > 0)
+    if (status >= 0) {
+        exit_status = status >> 8;
+        return exit_status;
+    } else if (id > 0)
         wait(NULL);
+    return 0;
 }

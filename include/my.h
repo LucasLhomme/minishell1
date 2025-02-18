@@ -7,13 +7,14 @@
 
 #include <unistd.h>
 #include <sys/wait.h>
+#include <stdarg.h>
 
 #ifndef MY_H_
     #define MY_H_
 char *cleaning_buffer(char *buffer);
-void searching_bin(char *buffer, char **env);
+int searching_bin(char *buffer, char **env);
 int loop_terminal(char **env);
-void hand_command(char *buffer, char **env);
-void my_cd(char *buffer, char **env);
+int hand_command(char *buffer, char **env);
+void my_cd(char *command, char **env);
 
 #endif /* MY_H_ */

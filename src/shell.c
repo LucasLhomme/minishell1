@@ -12,6 +12,7 @@ int loop_terminal(char **env)
     size_t len = 0;
     ssize_t read;
     char *buffer = NULL;
+    int exit_status = 0;
 
     while (1) {
         my_printf("$>");
@@ -19,9 +20,11 @@ int loop_terminal(char **env)
         if (read == -1) {
             free(buffer);
             my_printf("\nexit\n");
+            break;
         }
         if (my_strcmp(buffer, "\n") != 0) {
-            hand_command(buffer, env);
+            exit_status = hand_command(buffer, env);
         }
     }
+    return exit_status;
 }
