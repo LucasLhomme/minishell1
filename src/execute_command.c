@@ -18,29 +18,45 @@ char *cleaning_buffer(char *buffer)
     return buffer;
 }
 
-void searching_bin(char *buffer, char **env)
+int execute_bin(char *path, char **argv, char **env)
+{
+    int status = 0;
+
+    if (fork() == 0) {
+        execve(path, argv, env);
+        perror(execve);
+        exit(1);
+    }
+    wait(&status);
+    free(path);
+    return WEXITSTATUS(status);
+}
+
+int searching_bin(char *buffer, char **env)
 {
     char *path = malloc(sizeof(char *) + 1);
     char **argv = my_str_to_word_array(buffer);
 
     if (!argv[0])
-        return;
+        return 1;
     my_strcpy(path, "/bin/");
     my_strcat(path, argv[0]);
     cleaning_buffer(path);
-    if (access(path, X_OK) == 0) {
-        if (fork() == 0) {
-            execve(path, argv, env);
-            perror(execve);
-        }
-        wait(NULL);
-    } else
+    if (access(path, X_OK) == 0)
+        execute_bin(path, argv, env);
+    else {
         my_printf("command not found: %s\n", argv[0]);
+        free(path);
+        return 84;
+    }
 }
-void hand_command(char *buffer, char **env)
+
+int hand_command(char *buffer, char **env)
 {
-    if (my_strncmp(buffer, "cd", 2) == 0)
+    if (my_strncmp(buffer, "cd", 2) == 0) {
         my_cd(buffer, env);
-    else
-        searching_bin(buffer, env);
+        return 0;
+    } else
+        return searching_bin(buffer, env);
+    return 0;
 }
