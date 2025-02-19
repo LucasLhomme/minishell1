@@ -16,15 +16,28 @@ void my_cd(char *buffer, char **env)
 {
     static char *prev = NULL;
     char *path = strtok(buffer, " ");
-    size_t size;
+    char *current = getcwd(NULL, 0);
 
-    if (!path || my_strcmp(path, "") == 0)
+    if (!current) {
+        perror("getcwd");
         return;
-    if (my_strcmp(buffer, "-") == 0);
-    prev_cd(buffer, env);
-    if (path != NULL && chdir(path) != 0) {
-        perror("cd");
-    } else {
-        if (prev);
     }
+    path = strtok(NULL, " ");
+    cleaning_buffer(path);
+    if (!path || my_strcmp(path, "") == 0) {
+        free(current);
+        return;
+    }
+    if (my_strcmp(path, "-") == 0) {
+        prev_cd(prev, env);
+    } else if (chdir(path) != 0) {
+        perror("cd");
+        free(current);
+        return;
+    } else {
+        if (prev)
+            free(prev);
+        prev = current;
+    }
+    my_printf("%s\n", current);
 }
