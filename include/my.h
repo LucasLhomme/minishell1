@@ -16,5 +16,6 @@ int searching_bin(char *buffer, char **env);
 int loop_terminal(char **env);
 int hand_command(char *buffer, char **env);
 void my_cd(char *command, char **env);
+int loop_non_terminal(char **env);
 
 #endif /* MY_H_ */

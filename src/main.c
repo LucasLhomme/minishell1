@@ -15,8 +15,12 @@ int main(int ac, char **argv, char **env)
 
     if (argv == NULL || ac < 1)
         return 84;
-    if (id == 0)
-        exit(loop_terminal(env));
+    if (id == 0) {
+        if (isatty(STDIN_FILENO) == 1) {
+            exit(loop_terminal(env));
+        } else
+            exit(loop_non_terminal(env));
+    }
     if (waitpid(id, &status, 0) == -1) {
         perror("waitpid failed");
         return EXIT_FAILURE;

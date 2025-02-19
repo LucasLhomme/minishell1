@@ -10,6 +10,9 @@
 void prev_cd(char *buffer, char **env)
 {
 
+    cleaning_buffer(buffer);
+    chdir(buffer);
+    printf("%s", buffer);
 }
 
 void my_cd(char *buffer, char **env)
@@ -18,10 +21,6 @@ void my_cd(char *buffer, char **env)
     char *path = strtok(buffer, " ");
     char *current = getcwd(NULL, 0);
 
-    if (!current) {
-        perror("getcwd");
-        return;
-    }
     path = strtok(NULL, " ");
     cleaning_buffer(path);
     if (!path || my_strcmp(path, "") == 0) {
@@ -30,6 +29,7 @@ void my_cd(char *buffer, char **env)
     }
     if (my_strcmp(path, "-") == 0) {
         prev_cd(prev, env);
+        prev = current;
     } else if (chdir(path) != 0) {
         perror("cd");
         free(current);
