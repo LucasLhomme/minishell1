@@ -7,9 +7,6 @@
 #include "lib.h"
 #include "my.h"
 
-#include "lib.h"
-#include "my.h"
-
 int handle_child_process(char **env)
 {
     if (isatty(STDIN_FILENO) == 1)
