@@ -10,7 +10,7 @@
 char *cleaning_buffer(char *buffer)
 {
     if (buffer == NULL)
-        return cleaning_buffer;
+        return (char *)cleaning_buffer;
     for (int i = 0; buffer[i] != '\0'; i++) {
         if (buffer[i] == '\n')
             buffer[i] = '\0';
@@ -24,7 +24,7 @@ int execute_bin(char *path, char **argv, char **env)
 
     if (fork() == 0) {
         execve(path, argv, env);
-        perror(execve);
+        perror("execve");
         exit(1);
     }
     wait(&status);
@@ -43,11 +43,11 @@ int searching_bin(char *buffer, char **env)
     my_strcat(path, argv[0]);
     cleaning_buffer(path);
     if (access(path, X_OK) == 0)
-        execute_bin(path, argv, env);
+        return execute_bin(path, argv, env);
     else {
         my_printf("command not found: %s\n", argv[0]);
         free(path);
-        return 84;
+        return searching_bin(buffer, env);
     }
 }
 
@@ -57,5 +57,4 @@ int hand_command(char *buffer, char **env)
         return my_cd(buffer, env);
     } else
         return searching_bin(buffer, env);
-    return 0;
 }

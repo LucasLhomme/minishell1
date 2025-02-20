@@ -12,7 +12,7 @@ int handle_child_process(char **env)
     if (isatty(STDIN_FILENO) == 1)
         return loop_terminal(env);
     else
-        return loop_non_terminal(env);
+        return loop_tty(env);
 }
 
 int handle_parent_process(pid_t id)

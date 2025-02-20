@@ -29,7 +29,7 @@ int loop_terminal(char **env)
     return exit_status;
 }
 
-int loop_non_terminal(char **env)
+int loop_tty(char **env)
 {
     size_t len = 0;
     ssize_t read;

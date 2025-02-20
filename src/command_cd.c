@@ -15,16 +15,16 @@ void verify_buffer(char *path, char *current)
     }
 }
 
-void prev_cd(char *buffer, char **env)
+void prev_cd(char *buffer)
 {
     cleaning_buffer(buffer);
     chdir(buffer);
 }
 
-void change_directory(char *path, char *current, char **env, char **prev)
+void change_directory(char *path, char *current, char **prev)
 {
     if (my_strcmp(path, "-") == 0) {
-        prev_cd(*prev, env);
+        prev_cd(*prev);
         free(*prev);
         *prev = current;
         return;
@@ -45,9 +45,10 @@ int my_cd(char *buffer, char **env)
     char *path = strtok(buffer, " ");
     char *current = getcwd(NULL, 0);
 
+    (void)env;
     path = strtok(NULL, " ");
     verify_buffer(path, current);
     cleaning_buffer(path);
-    change_directory(path, current, env, &prev);
+    change_directory(path, current, &prev);
     return 0;
 }
