@@ -36,12 +36,16 @@ int loop_non_terminal(char **env)
     char *buffer = NULL;
     int exit_status = 0;
 
+    while (1) {
     read = getline(&buffer, &len, stdin);
         if (read == -1) {
             free(buffer);
-            my_printf("\nexit\n");
+            break;
         }
         if (my_strcmp(buffer, "\n") != 0)
             exit_status = hand_command(buffer, env);
+        if (exit_status != 0)
+            return exit_status;
+    }
     return exit_status;
 }
