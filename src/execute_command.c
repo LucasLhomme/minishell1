@@ -54,8 +54,7 @@ int searching_bin(char *buffer, char **env)
 int hand_command(char *buffer, char **env)
 {
     if (my_strncmp(buffer, "cd", 2) == 0) {
-        my_cd(buffer, env);
-        return 0;
+        return my_cd(buffer, env);
     } else
         return searching_bin(buffer, env);
     return 0;
