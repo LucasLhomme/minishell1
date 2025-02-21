@@ -22,6 +22,8 @@ int loop_terminal(char **env)
             my_printf(" exit\n");
             break;
         }
+        if (my_strncmp(buffer, "exit", 4) == 0)
+            break;
         if (my_strcmp(buffer, "\n") != 0) {
             exit_status = hand_command(buffer, env);
         }
@@ -42,6 +44,8 @@ int loop_tty(char **env)
             free(buffer);
             break;
         }
+        if (my_strncmp(buffer, "exit", 4) == 0)
+            break;
         if (my_strcmp(buffer, "\n") != 0)
             exit_status = hand_command(buffer, env);
         if (exit_status != 0)
