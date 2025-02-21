@@ -56,6 +56,7 @@ all: 	$(NAME)
 $(NAME):	$(OBJ_LIB)
 		ar rcs $(NAME) $(OBJ_LIB)
 		mv $(NAME) ../../
+		make clean
 
 clean:
 		rm -f $(OBJ_LIB)
