@@ -29,6 +29,7 @@ int execute_bin(char *path, char **argv, char **env)
     }
     wait(&status);
     free(path);
+    free(argv);
     return WEXITSTATUS(status);
 }
 
@@ -46,8 +47,7 @@ int searching_bin(char *buffer, char **env)
         return execute_bin(path, argv, env);
     else {
         my_printf("command not found: %s\n", argv[0]);
-        free(path);
-        return searching_bin(buffer, env);
+        return execute_bin(path, argv, env);
     }
 }
 

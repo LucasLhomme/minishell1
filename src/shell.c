@@ -15,7 +15,7 @@ int loop_terminal(char **env)
     int exit_status = 0;
 
     while (1) {
-        my_printf("$>");
+        my_printf("$> ");
         read = getline(&buffer, &len, stdin);
         if (read == -1) {
             free(buffer);

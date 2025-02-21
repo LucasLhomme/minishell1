@@ -12,6 +12,7 @@ void verify_buffer(char *path, char *current)
     if (!path || my_strcmp(path, "") == 0) {
         free(current);
         current = NULL;
+        return;
     }
 }
 
@@ -23,6 +24,8 @@ void prev_cd(char *buffer)
 
 void change_directory(char *path, char *current, char **prev)
 {
+    if (my_strncmp(path, "cd", 2) == 0)
+        return;
     if (my_strcmp(path, "-") == 0) {
         prev_cd(*prev);
         free(*prev);
@@ -47,6 +50,10 @@ int my_cd(char *buffer, char **env)
 
     (void)env;
     path = strtok(NULL, " ");
+    if (!path || my_strcmp(path, "") == 0) {
+        free(current);
+        return 1;
+    }
     verify_buffer(path, current);
     cleaning_buffer(path);
     change_directory(path, current, &prev);

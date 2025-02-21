@@ -15,33 +15,33 @@ SRC =	./src/main.c\
 ./src/command_cd.c\
 
 OBJ  	=	 $(SRC:.c=.o)
-
+LIBMY = libmy.a
 
 all: 	$(NAME)
-		$(MAKE) clean
 
-$(NAME):	$(OBJ)
+$(NAME):	$(OBJ) $(LIBMY)
+		gcc $(CFLAGS) -o $(NAME) $(OBJ) $(LIBMY)
+
+$(LIBMY):
 		$(MAKE) -C src/lib all
-		gcc $(CFLAGS) -o $(NAME) $(OBJ) libmy.a -lcrypt
-		rm libmy.a
+		mv src/lib/libmy.a .
 
-clean || clear:
+clean:
 		$(MAKE) -C src/lib clean
 		rm -f $(OBJ)
+		rm -f $(LIBMY)
 
-fclean:
-		rm -f $(NAME) debug $(OBJ) libmy.a
+fclean: clean
+		rm -f $(NAME) debug $(OBJ) $(LIBMY)
 
 re:
 		$(MAKE) fclean
 		$(MAKE) all
-		$(MAKE) clean
 
 debug: 	$(DEBUG)
 
-$(DEBUG):	$(OBJ)
-		$(MAKE) -C src/lib all
-		gcc -g $(CFLAGS) -o debug $(OBJ) libmy.a
+$(DEBUG):	$(OBJ) $(LIBMY)
+		gcc -g $(CFLAGS) -o debug $(OBJ) $(LIBMY)
 
 redebug:
 		$(MAKE) fclean
