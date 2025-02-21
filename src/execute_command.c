@@ -24,7 +24,6 @@ int execute_bin(char *path, char **argv, char **env)
 
     if (fork() == 0) {
         execve(path, argv, env);
-        perror("execve");
         exit(1);
     }
     wait(&status);
