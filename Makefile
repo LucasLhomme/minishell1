@@ -24,7 +24,6 @@ $(NAME):	$(OBJ) $(LIBMY)
 
 $(LIBMY):
 		$(MAKE) -C src/lib all
-		mv src/lib/libmy.a .
 
 clean:
 		$(MAKE) -C src/lib clean
