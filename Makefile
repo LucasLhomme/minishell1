@@ -13,6 +13,7 @@ SRC =	./src/main.c\
 ./src/execute_command.c\
 ./src/shell.c\
 ./src/command_cd.c\
+./src/command_env.c\
 
 OBJ  	=	 $(SRC:.c=.o)
 LIBMY = libmy.a

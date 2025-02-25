@@ -53,5 +53,5 @@ int my_strcmp(char const *s1, char const *s2);
 int flag_detector(const char *format, int i, va_list list);
 int isalphanum(char c);
 char *my_strcat(char *str, const char *new_str);
-
+char *my_uppercase(char *str);
 #endif /*lib.h*/
