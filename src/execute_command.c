@@ -9,13 +9,15 @@
 
 char *cleaning_buffer(char *buffer)
 {
-    if (buffer == NULL)
+    char *path = buffer;
+
+    if (path == NULL)
         return (char *)cleaning_buffer;
-    for (int i = 0; buffer[i] != '\0'; i++) {
-        if (buffer[i] == '\n')
-            buffer[i] = '\0';
+    for (int i = 0; path[i] != '\0'; i++) {
+        if (path[i] == '\n')
+            path[i] = '\0';
     }
-    return buffer;
+    return path;
 }
 
 int execute_bin(char *path, char **argv, char **env)
@@ -28,14 +30,16 @@ int execute_bin(char *path, char **argv, char **env)
     }
     wait(&status);
     free(path);
+    for (int i = 0; argv[i] != NULL; i++)
+        free(argv[i]);
     free(argv);
     return WEXITSTATUS(status);
 }
 
 int searching_bin(char *buffer, char **env)
 {
-    char *path = malloc(sizeof(char *) + 1);
     char **argv = my_str_to_word_array(buffer);
+    char *path = malloc(strlen("/bin/") + my_strlen(argv[0]) + 1);
 
     if (!argv[0] || path == NULL)
         return 1;
@@ -46,7 +50,11 @@ int searching_bin(char *buffer, char **env)
         return execute_bin(path, argv, env);
     else {
         my_printf("%s: Command not found.\n", argv[0]);
-        return execute_bin(path, argv, env);
+        free(path);
+        for (int i = 0; argv[i] != NULL; i++)
+            free(argv[i]);
+        free(argv);
+        return 1;
     }
 }
 

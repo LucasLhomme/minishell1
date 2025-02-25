@@ -19,16 +19,13 @@ int loop_terminal(char **env)
         read = getline(&buffer, &len, stdin);
         if (read == -1) {
             free(buffer);
-            my_printf(" exit\n");
+            my_printf("exit\n");
             break;
         }
-        if (my_strncmp(buffer, "exit", 4) == 0) {
-            free(buffer);
+        if (my_strncmp(buffer, "exit", 4) == 0)
             break;
-        }
-        if (my_strcmp(buffer, "\n") != 0) {
+        if (my_strcmp(buffer, "\n") != 0)
             exit_status = hand_command(buffer, env);
-        }
     }
     return exit_status;
 }
@@ -46,10 +43,8 @@ int loop_tty(char **env)
             free(buffer);
             break;
         }
-        if (my_strncmp(buffer, "exit", 4) == 0) {
-            free(buffer);
+        if (my_strncmp(buffer, "exit", 4) == 0)
             break;
-        }
         if (my_strcmp(buffer, "\n") != 0)
             exit_status = hand_command(buffer, env);
         if (exit_status != 0)
