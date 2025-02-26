@@ -23,7 +23,7 @@ int over_value_env(char *name, char *value, char **env)
         }
     }
     env[i] = new_value;
-    env[i + 1] = NULL; 
+    env[i + 1] = NULL;
     return 0;
 }
 
@@ -40,35 +40,47 @@ int new_value_env(char *name, char **env)
         }
     }
     env[i] = new_value;
-    env[i + 1] = NULL; 
+    env[i + 1] = NULL;
     return 0;
 }
 
 int my_setenv(char *name, char *value, char **env)
 {
-    my_uppercase(name);
     if (name != NULL || value != NULL)
         over_value_env(name, value, env);
-    else new_value_env(name, env); 
+    else
+        new_value_env(name, env);
     return 0;
 }
 
-int my_unsetenv(char *name, char **env)
+static int my_unsetenv(char *name, char **env)
 {
-    char *new_value = malloc(my_strlen(name));
-    int i = 0;
+    int j = 0;
+    char **new_env = NULL;
 
-    my_uppercase(name);
-    my_printf("unsetenv detected\n");
-    my_strcpy(new_value, name);
-    my_strcat(new_value, "=");
-    for (; env[i]; i++) {
-        if (my_strncmp(env[i], name, my_strlen(name)) == 0) {
-            env[i] = NULL;
+    for (int env_len = 0; env[env_len] != NULL; env_len++)
+    new_env = malloc(sizeof(char *) * env_len);
+    if (new_env == NULL)
+        return 1;
+    for (int i = 0; env[i] != NULL; i++) {
+        if (strncmp(env[i], name, strlen(name)) != 0 ||
+        env[i][strlen(name)] != '=') {
+            new_env[j] = env[i];
+            j++;
         }
     }
-    env[i] = new_value;
-    env[i + 1] = NULL; 
+    new_env[j] = NULL;
+    for (int i = 0; i < j; i++)
+        env[i] = new_env[i];
+    env[j] = NULL;
+    free(new_env);
+    return 0;
+}
+
+static int print_env(char **env)
+{
+    for (int i = 0; env[i] != NULL; i++)
+        my_printf("%s\n", env[i]);
     return 0;
 }
 
@@ -80,10 +92,13 @@ int my_env(char *buffer, char **env)
         argv[2] = '\0';
     if (my_strncmp(buffer, "unsetenv", 8) == 0)
         return my_unsetenv(argv[1], env);
-    else if (my_strncmp(buffer, "setenv", 6) == 0) {
+    if (my_strncmp(buffer, "env", 3) == 0)
+        return print_env(env);
+    if (my_strncmp(buffer, "setenv", 6) == 0) {
         if (argv[2] != NULL)
-        return my_setenv(argv[1], argv[2], env);
-        else return new_value_env(argv[1], env); 
+            return my_setenv(argv[1], argv[2], env);
+        else
+            return new_value_env(argv[1], env);
     }
     return 0;
 }

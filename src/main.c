@@ -43,11 +43,12 @@ pid_t initialize_fork(void)
 int main(int ac, char **argv, char **env)
 {
     pid_t id = initialize_fork();
+    char **new_env = env;
 
     if (argv == NULL || ac < 1)
         return 84;
     if (id == 0)
-        exit(handle_child_process(env));
+        exit(handle_child_process(new_env));
     else
         return handle_parent_process(id);
 }

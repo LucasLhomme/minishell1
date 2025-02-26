@@ -63,7 +63,9 @@ int hand_command(char *buffer, char **env)
     cleaning_buffer(buffer);
     if (my_strncmp(buffer, "cd", 2) == 0)
         return my_cd(buffer, env);
-    if (my_strncmp(buffer, "setenv", 6) == 0 || my_strncmp(buffer, "unsetenv", 8) == 0)
+    if (my_strncmp(buffer, "setenv", 6) == 0 ||
+    my_strncmp(buffer, "unsetenv", 8) == 0 ||
+    my_strncmp(buffer, "env", 3) == 0)
         return my_env(buffer, env);
     else
         return searching_bin(buffer, env);
