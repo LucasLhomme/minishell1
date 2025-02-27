@@ -8,19 +8,36 @@
 #include "lib.h"
 #include <errno.h>
 
-void verify_buffer(char *path, char **current)
+int verify_buffer(char *path, char **current)
 {
     if (!path || my_strcmp(path, "") == 0) {
+        my_printf("unsetenv: Too few arguments.");
         free(*current);
         *current = NULL;
-        return;
+        return 1;
     }
+    return 0;
 }
 
 void prev_cd(char *buffer)
 {
     cleaning_buffer(buffer);
     chdir(buffer);
+}
+
+void handling_error(char *path, char *current)
+{
+    if (chdir(path) != 0) {
+        if (errno == ENOTDIR)
+            my_printf("%s: Not a directory.\n", path);
+        if (errno == ENOENT)
+            my_printf("%s: No such file or directory.\n", path);
+        if (errno == EACCES)
+            my_printf("%s: Permission denied.\n", path);
+        free(current);
+        return 1;
+    }
+    return 0;
 }
 
 int change_directory(char *path, char *current, char **prev)
@@ -33,14 +50,7 @@ int change_directory(char *path, char *current, char **prev)
         *prev = current;
         return 0;
     }
-    if (chdir(path) != 0) {
-        if (errno == ENOTDIR)
-            my_printf("%s: Not a directory.\n", path);
-        else
-            my_printf("%s: No such file or directory.\n", path);
-        free(current);
-        return 1;
-    }
+    handling_error(path, current);
     if (*prev)
         free(*prev);
     *prev = current;
@@ -58,14 +68,14 @@ char *find_env(char *path, char **env)
         return path;
 }
 
-int my_cd(char *buffer, char **env)
+static int my_cd(char *buffer, char **env)
 {
     static char *prev = NULL;
     char *path = strtok(buffer, " ");
     char *current = getcwd(NULL, 0);
 
     path = strtok(NULL, " ");
-    if (!path || my_strcmp(path, "") == 0) {
+    if (!path || my_strcmp(path, "") == 0 || my_strncmp(path, "~", 1) == 0) {
         path = find_env(path, env);
         if (!path) {
             free(current);
