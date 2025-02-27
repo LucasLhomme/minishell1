@@ -14,6 +14,8 @@ SRC =	./src/main.c\
 ./src/shell.c\
 ./src/command_cd.c\
 ./src/command_env.c\
+./src/setenv.c\
+./src/unsetenv.c\
 
 OBJ  	=	 $(SRC:.c=.o)
 LIBMY = libmy.a

@@ -1,0 +1,47 @@
+/*
+** EPITECH PROJECT, 2025
+** B-PSU-200-LIL-2-1-minishell1-lucas.lhomme
+** File description:
+** unsetenv
+*/
+
+#include "lib.h"
+#include "my.h"
+
+static int count_env_vars(char **env)
+{
+    int count = 0;
+
+    while (env[count] != NULL)
+        count++;
+    return count;
+}
+
+static void copy_env_vars(char **env, char **new_env, char *name, int *j)
+{
+    for (int i = 0; env[i] != NULL; i++) {
+        if (my_strncmp(env[i], name, my_strlen(name)) != 0 ||
+        env[i][my_strlen(name)] != '=') {
+            new_env[*j] = env[i];
+            (*j)++;
+        }
+    }
+}
+
+int my_unsetenv(char *name, char **env)
+{
+    int j = 0;
+    char **new_env = NULL;
+    int env_len = count_env_vars(env);
+
+    new_env = malloc(sizeof(char *) * env_len);
+    if (new_env == NULL)
+        return 1;
+    copy_env_vars(env, new_env, name, &j);
+    new_env[j] = NULL;
+    for (int i = 0; i < j; i++)
+        env[i] = new_env[i];
+    env[j] = NULL;
+    free(new_env);
+    return 0;
+}

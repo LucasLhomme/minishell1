@@ -18,5 +18,9 @@ int hand_command(char *buffer, char **env);
 int my_cd(char *command, char **env);
 int loop_tty(char **env);
 int my_env(char *buffer, char **env);
+int my_setenv(char *name, char *value, char **env);
+int new_value_env(char *name, char **env);
+int over_value_env(char *name, char *value, char **env);
+int my_unsetenv(char *name, char **env);
 
 #endif /* MY_H_ */
