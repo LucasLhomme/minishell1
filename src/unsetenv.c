@@ -11,7 +11,7 @@
 int check_name(char *name)
 {
     if (!name) {
-        printf("unsetenv: Too few arguments.\n");
+        my_printf("unsetenv: Too few arguments.\n");
         return 1;
     }
     return 0;
