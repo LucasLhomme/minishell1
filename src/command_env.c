@@ -25,7 +25,7 @@ static int isalphanum_v2(char c)
 int print_env(char **env)
 {
     for (int i = 0; env[i] != NULL; i++)
-        printf("%s\n", env[i]);
+        my_printf("%s\n", env[i]);
     return 0;
 }
 
