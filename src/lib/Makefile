@@ -47,6 +47,8 @@ LIB =	./check_strisnum.c\
 	./my_strcmp.c\
 	./my_strcat.c\
 	./my_uppercase.c\
+	./my_isalpha.c\
+	./my_isnum.c\
 
 
 OBJ_LIB  	=	 $(LIB:.c=.o)
