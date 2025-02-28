@@ -41,9 +41,9 @@ int check_var(char *name)
 
 int my_setenv(char *name, char *value, char **env)
 {
-    int exit_check_var = 0;
+    int exit_check_var = check_var(name);
 
-    if ((exit_check_var = check_var(name)) != 0)
+    if (exit_check_var != 0)
         return exit_check_var;
     if (value == NULL)
         return new_value_env(name, env);
@@ -55,7 +55,7 @@ int my_setenv(char *name, char *value, char **env)
 int my_env(char *buffer, char **env)
 {
     char **argv = my_str_to_word_array(buffer);
-    
+
     if (my_strncmp(buffer, "unsetenv", 8) == 0)
         return my_unsetenv(argv[1], env);
     if (my_strncmp(buffer, "env", 3) == 0)
