@@ -56,4 +56,5 @@ char *my_strcat(char *str, const char *new_str);
 int my_isalpha(char c);
 int my_isnum(char c);
 char *my_uppercase(char *str);
+int nonalphanum(char c);
 #endif /*lib.h*/

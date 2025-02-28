@@ -48,6 +48,7 @@ LIB =	./check_strisnum.c\
 	./my_strcat.c\
 	./my_uppercase.c\
 	./my_isalpha.c\
+	./nonalphanumeric.c\
 	./my_isnum.c\
 
 
