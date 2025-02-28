@@ -52,7 +52,7 @@ int check_var(char *name)
     return 0;
 }
 
-static int my_setenv(char *name, char *value, char **env)
+int my_setenv(char *name, char *value, char **env)
 {
     check_var(name);
     if (name != NULL || value != NULL)

@@ -68,7 +68,7 @@ char *find_env(char *path, char **env)
         return path;
 }
 
-static int my_cd(char *buffer, char **env)
+int my_cd(char *buffer, char **env)
 {
     static char *prev = NULL;
     char *path = strtok(buffer, " ");
