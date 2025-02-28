@@ -22,16 +22,15 @@ int check_var(char *name)
             ("setenv: Variable name must begin with a letter.\n");
             return 1;
         }
-    }
-    for (int i = 0; name[i] != '\0'; i++) {
-        if ((name[i] == '=') || (name[i] == ':')) {
-            my_printf("setenv: Variable name must contain alphanumeric characters.\n");
+        if (nonalphanum(name[i]) != 0) {
+            my_printf
+            ("setenv: Variable name must contain alphanumeric characters.\n");
             return 1;
         }
-    }
-    for (int i = 0; name[i] != '\0'; i++) {
         if ((!my_isalpha(name[i]) && !my_isnum(name[i]))) {
-            my_printf("setenv: Variable name must contain only alphanumeric characters.\n");
+            my_printf("setenv:");
+            my_printf
+            (" Variable name must contain only alphanumeric characters.\n");
             return 1;
         }
     }

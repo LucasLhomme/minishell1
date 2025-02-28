@@ -44,7 +44,7 @@ int loop_tty(char **env)
             free(buffer);
             break;
         }
-        if (my_strncmp(buffer, "exit", 4) == 0)
+        if (my_strcmp(buffer, "exit") == 0)
             break;
         if (my_strcmp(buffer, "\n") != 0)
             exit_status = hand_command(buffer, env);
