@@ -24,17 +24,17 @@ int print_env(char **env)
 
 int check_var(char *name)
 {
+    if (name == NULL || !my_isalpha(name[0])) {
+        my_printf
+        ("setenv: Variable name must begin with a letter.\n");
+        return 1;
+    }
     for (int i = 0; name[i] != '\0'; i++) {
         if (!isalphanum(name[i])) {
             my_printf
             ("setenv: Variable name must contain alphanumeric characters.\n");
             return 1;
         }
-    }
-    if (!my_isalpha(name[0]) || !name) {
-        my_printf
-        ("setenv: Variable name must begin with a letter.\n");
-        return 1;
     }
     return 0;
 }
@@ -56,17 +56,17 @@ int my_env(char *buffer, char **env)
 {
     char **argv = my_str_to_word_array(buffer);
 
-    if (argv[3] != NULL)
-        return 1;
+    if (argv[2] == NULL)
+        argv[2] = '\0';
     if (my_strncmp(buffer, "unsetenv", 8) == 0)
         return my_unsetenv(argv[1], env);
     if (my_strncmp(buffer, "env", 3) == 0)
         return print_env(env);
     if (my_strncmp(buffer, "setenv", 6) == 0) {
-        if (argv[2] != NULL)
-            return my_setenv(argv[1], argv[2], env);
         if (argv[2] == NULL)
             return my_setenv(argv[1], NULL, env);
+        if (argv[2] != NULL)
+            return my_setenv(argv[1], argv[2], env);
     }
     return 0;
 }
