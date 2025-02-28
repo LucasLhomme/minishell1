@@ -7,14 +7,6 @@
 #include "my.h"
 #include "lib.h"
 
-int my_isalpha(char c)
-{
-    if ((c >= 'a' && c <= 'z') ||
-        (c >= 'A' && c <= 'Z'))
-        return 1;
-    return 0;
-}
-
 int print_env(char **env)
 {
     for (int i = 0; env[i] != NULL; i++)
@@ -24,16 +16,15 @@ int print_env(char **env)
 
 int check_var(char *name)
 {
-    if (name == NULL || !my_isalpha(name[0])) {
+    if (!name[0] || !my_isalpha(name[0])) {
         my_printf
         ("setenv: Variable name must begin with a letter.\n");
         return 1;
     }
     for (int i = 0; name[i] != '\0'; i++) {
-        if (!isalphanum(name[i])) {
-            my_printf
-            ("setenv: Variable name must contain alphanumeric characters.\n");
-            return 1;
+        if (!my_isalpha(name[i]) && !my_isnum(name[i])) {
+        my_printf("setenv: Variable name must contain only alphanumeric characters.\n");
+        return 1;
         }
     }
     return 0;

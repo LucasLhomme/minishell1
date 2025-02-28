@@ -26,6 +26,10 @@ int handle_parent_process(pid_t id)
     }
     if (WIFEXITED(status))
         exit_status = WEXITSTATUS(status);
+    if (WIFSIGNALED(status)) {
+        my_printf("signal error\n");
+        return WEXITSTATUS(status);
+    }
     return exit_status;
 }
 
