@@ -56,6 +56,8 @@ int my_env(char *buffer, char **env)
 {
     char **argv = my_str_to_word_array(buffer);
 
+    if (argv[3] != NULL)
+        return 1;
     if (my_strncmp(buffer, "unsetenv", 8) == 0)
         return my_unsetenv(argv[1], env);
     if (my_strncmp(buffer, "env", 3) == 0)
