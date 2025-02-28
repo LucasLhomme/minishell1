@@ -7,17 +7,10 @@
 #include "my.h"
 #include "lib.h"
 
-static int my_isalpha(char c)
+int my_isalpha(char c)
 {
     if ((c >= 'a' && c <= 'z') ||
         (c >= 'A' && c <= 'Z'))
-        return 1;
-    return 0;
-}
-
-static int isalphanum_v2(char c)
-{
-    if (c >= '0' && c <= '9')
         return 1;
     return 0;
 }
@@ -31,10 +24,6 @@ int print_env(char **env)
 
 int check_var(char *name)
 {
-    if (!my_isalpha(name[0])) {
-        my_printf("setenv: Variable name must begin with a letter.\n", name);
-        return 1;
-    }
     for (int i = 0; name[i] != '\0'; i++) {
         if (!isalphanum(name[i])) {
             my_printf
@@ -42,32 +31,31 @@ int check_var(char *name)
             return 1;
         }
     }
-    for (int i = 0; name[i] != '\0'; i++) {
-        if (!isalphanum_v2(name[i])) {
-            my_printf
-            ("setenv: Variable name must contain alphanumeric characters.\n");
-            return 1;
-        }
+    if (!my_isalpha(name[0]) || !name) {
+        my_printf
+        ("setenv: Variable name must begin with a letter.\n");
+        return 1;
     }
     return 0;
 }
 
 int my_setenv(char *name, char *value, char **env)
 {
-    check_var(name);
+    int exit_check_var = 0;
+
+    if ((exit_check_var = check_var(name)) != 0)
+        return exit_check_var;
+    if (value == NULL)
+        return new_value_env(name, env);
     if (name != NULL || value != NULL)
-        over_value_env(name, value, env);
-    else
-        new_value_env(name, env);
+        return over_value_env(name, value, env);
     return 0;
 }
 
 int my_env(char *buffer, char **env)
 {
     char **argv = my_str_to_word_array(buffer);
-
-    if (argv[2] == NULL)
-        argv[2] = '\0';
+    
     if (my_strncmp(buffer, "unsetenv", 8) == 0)
         return my_unsetenv(argv[1], env);
     if (my_strncmp(buffer, "env", 3) == 0)
@@ -75,8 +63,8 @@ int my_env(char *buffer, char **env)
     if (my_strncmp(buffer, "setenv", 6) == 0) {
         if (argv[2] != NULL)
             return my_setenv(argv[1], argv[2], env);
-        else
-            return new_value_env(argv[1], env);
+        if (argv[2] == NULL)
+            return my_setenv(argv[1], NULL, env);
     }
     return 0;
 }

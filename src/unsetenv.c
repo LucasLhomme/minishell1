@@ -8,6 +8,15 @@
 #include "lib.h"
 #include "my.h"
 
+int check_name(char *name)
+{
+    if (!name) {
+        printf("unsetenv: Too few arguments.\n");
+        return 1;
+    }
+    return 0;
+}
+
 static int count_env_vars(char **env)
 {
     int count = 0;
@@ -34,6 +43,7 @@ int my_unsetenv(char *name, char **env)
     char **new_env = NULL;
     int env_len = count_env_vars(env);
 
+    return check_name(name);
     new_env = malloc(sizeof(char *) * env_len);
     if (new_env == NULL)
         return 1;

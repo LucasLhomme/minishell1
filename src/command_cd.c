@@ -19,25 +19,30 @@ int verify_buffer(char *path, char **current)
     return 0;
 }
 
+int handling_error(char *path, char *current)
+{
+    if (chdir(path) != 0) {
+        if (errno == ENOTDIR) {
+            my_printf("%s: Not a directory.\n", path);
+            return 1;
+        }
+        if (errno == ENOENT) {
+            my_printf("%s: No such file or directory.\n", path);
+            return 1;
+        }
+        if (errno == EACCES) {
+            my_printf("%s: Permission denied.\n", path);
+            return 1;
+        }
+        free(current);
+    }
+    return 0;
+}
+
 void prev_cd(char *buffer)
 {
     cleaning_buffer(buffer);
     chdir(buffer);
-}
-
-void handling_error(char *path, char *current)
-{
-    if (chdir(path) != 0) {
-        if (errno == ENOTDIR)
-            my_printf("%s: Not a directory.\n", path);
-        if (errno == ENOENT)
-            my_printf("%s: No such file or directory.\n", path);
-        if (errno == EACCES)
-            my_printf("%s: Permission denied.\n", path);
-        free(current);
-        return 1;
-    }
-    return 0;
 }
 
 int change_directory(char *path, char *current, char **prev)
@@ -50,14 +55,15 @@ int change_directory(char *path, char *current, char **prev)
         *prev = current;
         return 0;
     }
-    handling_error(path, current);
+    if (handling_error(path, current) != 0)
+        return handling_error(path, current);
     if (*prev)
         free(*prev);
     *prev = current;
     return 0;
 }
 
-char *find_env(char *path, char **env)
+static char *find_env(char *path, char **env)
 {
     for (int i = 0; env[i]; i++) {
         if (my_strncmp(env[i], "HOME=", 5) == 0) {
