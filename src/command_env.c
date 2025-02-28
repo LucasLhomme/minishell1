@@ -16,7 +16,7 @@ int print_env(char **env)
 
 int check_var(char *name)
 {
-    if (!name[0] || !my_isalpha(name[0])) {
+    if (name == NULL || !my_isalpha(name[0])) {
         my_printf
         ("setenv: Variable name must begin with a letter.\n");
         return 1;

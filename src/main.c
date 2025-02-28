@@ -6,6 +6,7 @@
 */
 #include "lib.h"
 #include "my.h"
+#include <string.h>
 
 int handle_child_process(char **env)
 {
@@ -27,7 +28,9 @@ int handle_parent_process(pid_t id)
     if (WIFEXITED(status))
         exit_status = WEXITSTATUS(status);
     if (WIFSIGNALED(status)) {
-        my_printf("signal error\n");
+        my_putstr(strsignal(WTERMSIG(status)));
+        if (WCOREDUMP(status))
+            my_putstr(" (core dumped)\n");
         return WEXITSTATUS(status);
     }
     return exit_status;
