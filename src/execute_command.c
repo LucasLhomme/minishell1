@@ -49,8 +49,7 @@ int searching_bin(char *buffer, char **env)
     if (access(path, X_OK) == 0)
         return execute_bin(path, argv, env);
     else {
-        write(2, buffer, my_strlen(path));
-        write(2, ": Command not found.\n", 22);
+        my_printf("%s: Command not found.\n", argv[0]);
         free(path);
         for (int i = 0; argv[i] != NULL; i++)
             free(argv[i]);

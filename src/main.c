@@ -28,11 +28,12 @@ int handle_parent_process(pid_t id)
     if (WIFEXITED(status))
         exit_status = WEXITSTATUS(status);
     if (WIFSIGNALED(status)) {
-        perror(strsignal(WTERMSIG(status)));
+        my_putstr(strsignal(WTERMSIG(status)));
         if (WCOREDUMP(status)) {
-            perror(" (core dumped)\n");
-            return WEXITSTATUS(status);
+            my_putstr(" (core dumped)\n");
         }
+        exit_status = 128 + WTERMSIG(status);
+        return exit_status;
     }
     return exit_status;
 }
