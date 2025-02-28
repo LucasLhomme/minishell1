@@ -39,7 +39,7 @@ int execute_bin(char *path, char **argv, char **env)
 int searching_bin(char *buffer, char **env)
 {
     char **argv = my_str_to_word_array(buffer);
-    char *path = malloc(strlen("/bin/") + my_strlen(argv[0]) + 1);
+    char *path = malloc(my_strlen("/bin/") + my_strlen(argv[0]) + 1);
 
     if (!argv[0] || path == NULL || buffer == NULL)
         return 1;
