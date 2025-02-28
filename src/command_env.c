@@ -23,7 +23,8 @@ int check_var(char *name)
     }
     for (int i = 0; name[i] != '\0'; i++) {
         if (!my_isalpha(name[i]) && !my_isnum(name[i])) {
-        my_printf("setenv: Variable name must contain only alphanumeric characters.\n");
+        my_printf
+        ("setenv: Variable name must contain only alphanumeric characters.\n");
         return 1;
         }
     }
