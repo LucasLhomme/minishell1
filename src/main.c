@@ -29,9 +29,10 @@ int handle_parent_process(pid_t id)
         exit_status = WEXITSTATUS(status);
     if (WIFSIGNALED(status)) {
         perror(strsignal(WTERMSIG(status)));
-        if (WCOREDUMP(status))
+        if (WCOREDUMP(status)) {
             perror(" (core dumped)\n");
-        return WEXITSTATUS(status);
+            return WEXITSTATUS(status);
+        }
     }
     return exit_status;
 }
