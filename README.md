@@ -4,6 +4,7 @@
 [![Build: Make](https://img.shields.io/badge/Build-Makefile-orange.svg)](Makefile)
 [![Module: B-PSU-200](https://img.shields.io/badge/Epitech-B--PSU--200-blue.svg)](https://www.epitech.eu/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Academic Year: 2024-2025](https://img.shields.io/badge/Academic%20Year-2024--2025%20(Tek1)-blueviolet.svg)](#)
 
 > **Minishell 1 is the foundational Unix shell implementation**, exploring process control, system calls, and environment management.
 
